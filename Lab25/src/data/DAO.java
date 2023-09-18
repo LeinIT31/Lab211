@@ -11,6 +11,6 @@ import java.util.List;
  * @author lyhai
  */
 public interface DAO<T> {
-    int addNew(T t) throws Exception;
+    boolean add(T t) throws Exception;
     List<T> getList() throws Exception;
 }

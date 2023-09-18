@@ -11,26 +11,48 @@ import java.util.Scanner;
  * @author lyhai
  */
 public class DataInput {
+
     static Scanner sc = new Scanner(System.in);
-    public static String getString(String message){
-        String tmp;
-        
-        System.out.println(message);
-        tmp = sc.nextLine();
-        return tmp;
+    static Validation vIO = new Validation();
+
+    public static String getStringCode(String message) {
+
+        String var = "";
+        boolean check = false;
+
+        while (!check) {
+            try {
+                System.out.println(message);
+                var = sc.nextLine();
+                if (vIO.codeValid(var)) {
+                    check = true;
+                }
+            } catch (Exception e) {
+                System.out.println("Input invalid!");
+            }
+        }
+        return var;
     }
-    public static int getInt(String message){
+
+    public static int getInt(String message) {
         int tmp;
-        
-        while(true){
+
+        while (true) {
             try {
                 System.out.println(message);
                 tmp = Integer.parseInt(sc.nextLine());
                 break;
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Enter again");
             }
         }
         return tmp;
+    }
+
+    public static String getString(String message) {
+        System.out.println(message);
+        String var = sc.nextLine();
+
+        return var;
     }
 }

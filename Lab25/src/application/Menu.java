@@ -9,11 +9,10 @@ package application;
  * @author lyhai
  */
 public class Menu implements IMenu {
-    ProductMenu pm = new ProductMenu();
 
     @Override
     public void manageProduct() throws Exception {
-        pm.showMenu();
+        ProductMenu.showMenu();
     }
 
     @Override

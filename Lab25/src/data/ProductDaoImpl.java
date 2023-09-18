@@ -6,8 +6,8 @@ package data;
 
 import business.utilities.DataInput;
 import business.entity.Product;
-import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,78 +15,82 @@ import java.util.List;
  * @author lyhai
  */
 public class ProductDaoImpl implements IProductDao {
-
-    private List<Product> list = new ArrayList<Product>();
-
+    
+    public static final List<Product> pList = new ArrayList<>();
+    static FileManager fm = new FileManager();
+    
     @Override
-    public int update(String id) throws Exception {
-        for (Product e : list){
-            if (e.getCode().equalsIgnoreCase(id)){
-                String choice =  DataInput.getString("Product exist! Are you continue update it? Y/N").toLowerCase();
-                if (choice.equalsIgnoreCase("y")){
-                    
-                    String newName, newManufacturingDate, newExpirationDate, newType;
-                    
-                    newName = DataInput.getString("Enter new name.");
-                    if (newName.isEmpty()){
-                        newName = e.getName();
-                    }
-                    
-                    newManufacturingDate = DataInput.getString("Enter new manufacturing date.");
-                    if (newManufacturingDate.isEmpty()){
-                        newManufacturingDate = e.getManufacturingDate();
-                    }
-                    
-                    newExpirationDate = DataInput.getString("Enter new expiration date.");
-                    if (newExpirationDate.isEmpty()){
-                        newExpirationDate = e.getExpirationDate();
-                    }
-                    
-                    newType = DataInput.getString("Enter new type.");
-                    if (newType.isEmpty()){
-                        newType = e.getTypes();
-                    }
-                    
-                    e.setName(newName);
-                    e.setManufacturingDate(newManufacturingDate);
-                    e.setExpirationDate(newExpirationDate);
-                    e.setTypes(newType);
-                    
-                    return 1;
+    public boolean update(String code, Product newP) throws Exception {
+        for (Product p : pList) {
+            if (p.getCode().equalsIgnoreCase(code)) {
+                p.setCode(p.getCode());
+                
+                if (newP.getName().isEmpty()) {
+                    p.setName(p.getName());
+                } else {
+                    p.setName(newP.getName());
                 }
+                
+                if (newP.getManufacturingDate().isEmpty()) {
+                    p.setManufacturingDate(p.getManufacturingDate());
+                } else {
+                    p.setManufacturingDate(newP.getManufacturingDate());
+                }
+                
+                if (newP.getExpirationDate().isEmpty()) {
+                    p.setExpirationDate(p.getExpirationDate());
+                } else {
+                    p.setExpirationDate(newP.getExpirationDate());
+                }
+                
+                if (newP.getTypes().isEmpty()) {
+                    p.setTypes(p.getTypes());
+                } else {
+                    p.setTypes(newP.getTypes());
+                }
+
             }
         }
-        return 0;
+        return true;
     }
-
+    
     @Override
-    public int delete(String id) throws Exception {
-        for(Product e : list){
-            if (e.getCode().equalsIgnoreCase(id)){
-                String choice = DataInput.getString("Product exist! Are you want to delete it? Y/N").toLowerCase();
-                if (choice.equalsIgnoreCase("y")){
-                    list.remove(e);
-                    return 1;
-                }
+    public boolean delete(String id) throws Exception {
+        for (Product p : pList) {
+            if (p.getCode().equalsIgnoreCase(id)) {
+                pList.remove(p);
+                return true;
             }
         }
-        return 0;
+        return false;
     }
-
+    
     @Override
-    public int addNew(Product t) throws Exception {
-
-        list.add(t);
-        return 1;
+    public boolean add(Product p) throws Exception {
+        pList.add(p);
+        return true;
     }
-
+    
     @Override
     public List<Product> getList() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return pList;
     }
-
-    public void printList() throws Exception {
-        System.out.println(list.toString());
-
+    
+    @Override
+    public boolean printList() throws Exception {
+        System.out.println(pList.toString());
+        return true;
     }
+//    public List<Product> loadDataFromFile() throws Exception{
+//        List<String> strList = fm.readDateFromFile();
+//        List<Product> pList = new ArrayList<>();
+//        
+//        for (String p : strList){
+//            Product product = (Product) rawDataToProduct(p);
+//            pList.add(product);
+//        }
+//    }
+//    public List<String> rawDataToProduct(String rawProduct){
+//        List<String> raw = Arrays.asList(rawProduct.split(","));
+//    }
 }

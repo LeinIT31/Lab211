@@ -11,7 +11,8 @@ import business.entity.Product;
  * @author lyhai
  */
 public interface IProductDao extends DAO<Product> {
-    int update(String id) throws Exception;
-    int delete(String id) throws Exception;
-    void printList() throws Exception;
+    boolean add(Product p) throws Exception;
+    boolean update(String code, Product newP) throws Exception;
+    boolean delete(String code) throws Exception;
+    boolean printList() throws Exception;
 }

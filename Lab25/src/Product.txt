@@ -1,1 +1,1 @@
-Luan dz
+Product{code=P001, name=Dasani, manufacturingDate=20-1-2000, expirationDate=20-1-2020, types=Water}

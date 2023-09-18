@@ -4,7 +4,9 @@
  */
 package data;
 
+import business.entity.Product;
 import java.io.File;
+import java.util.List;
 
 /**
  *
@@ -12,4 +14,6 @@ import java.io.File;
  */
 public interface IFile {
     File createNewFile() throws Exception;
+    List<String> readDateFromFile() throws Exception;
+
 }
