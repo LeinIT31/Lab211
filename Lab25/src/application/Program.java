@@ -2,19 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package lab25demo;
+package application;
 
-import application.Menu;
-import application.ProductMenu;
-import business.entity.Product;
 import business.utilities.DataInput;
-import data.ProductDaoImpl;
 
 /**
  *
  * @author lyhai
  */
-public class Lab25Demo {
+public class Program {
 
     /**
      * @param args the command line arguments

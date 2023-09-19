@@ -4,7 +4,6 @@
  */
 package data;
 
-import business.utilities.DataInput;
 import business.entity.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,34 +14,41 @@ import java.util.List;
  * @author lyhai
  */
 public class ProductDaoImpl implements IProductDao {
-    
+
     public static final List<Product> pList = new ArrayList<>();
-    static FileManager fm = new FileManager();
-    
+    static IFile fm = new FileManager();
+
+    public ProductDaoImpl() {
+    }
+
+    public ProductDaoImpl(IFile fm) throws Exception {
+        this.fm = fm;
+    }
+
     @Override
     public boolean update(String code, Product newP) throws Exception {
         for (Product p : pList) {
             if (p.getCode().equalsIgnoreCase(code)) {
                 p.setCode(p.getCode());
-                
+
                 if (newP.getName().isEmpty()) {
                     p.setName(p.getName());
                 } else {
                     p.setName(newP.getName());
                 }
-                
+
                 if (newP.getManufacturingDate().isEmpty()) {
                     p.setManufacturingDate(p.getManufacturingDate());
                 } else {
                     p.setManufacturingDate(newP.getManufacturingDate());
                 }
-                
+
                 if (newP.getExpirationDate().isEmpty()) {
                     p.setExpirationDate(p.getExpirationDate());
                 } else {
                     p.setExpirationDate(newP.getExpirationDate());
                 }
-                
+
                 if (newP.getTypes().isEmpty()) {
                     p.setTypes(p.getTypes());
                 } else {
@@ -53,7 +59,7 @@ public class ProductDaoImpl implements IProductDao {
         }
         return true;
     }
-    
+
     @Override
     public boolean delete(String id) throws Exception {
         for (Product p : pList) {
@@ -64,33 +70,51 @@ public class ProductDaoImpl implements IProductDao {
         }
         return false;
     }
-    
+
     @Override
     public boolean add(Product p) throws Exception {
         pList.add(p);
         return true;
     }
-    
+
     @Override
     public List<Product> getList() throws Exception {
+        if (pList.isEmpty() == true) {
+            throw new Exception("Product list is empty");
+        }
+
         return pList;
     }
-    
+
     @Override
     public boolean printList() throws Exception {
-        System.out.println(pList.toString());
+        for (Product p : pList) {
+            System.out.println(p);
+        }
         return true;
     }
-//    public List<Product> loadDataFromFile() throws Exception{
-//        List<String> strList = fm.readDateFromFile();
-//        List<Product> pList = new ArrayList<>();
-//        
-//        for (String p : strList){
-//            Product product = (Product) rawDataToProduct(p);
-//            pList.add(product);
-//        }
-//    }
-//    public List<String> rawDataToProduct(String rawProduct){
-//        List<String> raw = Arrays.asList(rawProduct.split(","));
-//    }
+
+    public final List<Product> loadDataFromFile() throws Exception {
+        if (!pList.isEmpty()) {
+            for (String p : fm.readDataFromFile()) {
+                pList.add(convertStringToProduct(p));
+            }
+        }
+        return pList;
+    }
+
+    public Product convertStringToProduct(String rawProduct) {
+        String code, name, manufacturingDate, expirationDate, types;
+        int quantity;
+        List<String> raw = Arrays.asList(rawProduct.split(","));
+
+        code = raw.get(0).trim().toUpperCase();
+        name = raw.get(1).trim();
+        manufacturingDate = raw.get(2).trim();
+        expirationDate = raw.get(3).trim();
+        types = raw.get(4).trim();
+        quantity = Integer.valueOf(raw.get(5).trim());
+
+        return new Product(code, name, manufacturingDate, expirationDate, types, quantity);
+    }
 }

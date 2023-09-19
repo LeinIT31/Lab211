@@ -14,13 +14,15 @@ public class Product {
     private String manufacturingDate;
     private String expirationDate;
     private String types;
+    private int quantity;
 
-    public Product(String code, String name, String manufacturingDate, String expirationDate, String types) {
+    public Product(String code, String name, String manufacturingDate, String expirationDate, String types, int quantity) {
         this.code = code;
         this.name = name;
         this.manufacturingDate = manufacturingDate;
         this.expirationDate = expirationDate;
         this.types = types;
+        this.quantity = quantity;
     }
 
     public String getCode() {
@@ -63,9 +65,18 @@ public class Product {
         this.types = types;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
+
     @Override
     public String toString() {
-        return "Product{" + "code=" + code + ", name=" + name + ", manufacturingDate=" + manufacturingDate + ", expirationDate=" + expirationDate + ", types=" + types + '}';
+        return code + "," + name + "," + manufacturingDate + "," + expirationDate + "," + types + "," + quantity;
     }
     
     

@@ -4,7 +4,6 @@
  */
 package business.service;
 
-import business.utilities.DataInput;
 import business.entity.Product;
 import data.IProductDao;
 import data.ProductDaoImpl;
@@ -32,10 +31,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void delete(String code) throws Exception {
+    public void delete(String id) throws Exception {
 
         try {
-            boolean status = rawProduct.delete(code);
+            boolean status = rawProduct.delete(id);
             if (status) {
                 System.out.println("Delete successfully!");
             } else {

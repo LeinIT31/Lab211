@@ -13,7 +13,6 @@ import java.util.List;
  * @author lyhai
  */
 public interface IFile {
-    File createNewFile() throws Exception;
-    List<String> readDateFromFile() throws Exception;
+    List<String> readDataFromFile() throws Exception;
 
 }

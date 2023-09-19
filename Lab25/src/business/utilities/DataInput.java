@@ -55,4 +55,35 @@ public class DataInput {
 
         return var;
     }
+
+    public static String getTypeProduct(String message) {
+
+        String var = "";
+        boolean isCheck = false;
+        while (isCheck == false) {
+            try {
+                System.out.println(message);
+                var = sc.nextLine();
+                isCheck = vIO.formType(var);
+            } catch (Exception e) {
+            }
+
+        }
+        return var;
+    }
+
+    public static String getDate(String message) {
+        String date = "";
+        boolean isCheck = false;
+        while (isCheck == false) {
+            try {
+                System.out.println(message);
+                date = sc.nextLine();
+                isCheck = vIO.formDate(date);
+            } catch (Exception e) {
+            }
+        }
+        return date;
+
+    }
 }

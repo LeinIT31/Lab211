@@ -10,8 +10,6 @@ import business.service.ProductService;
 import data.FileManager;
 import data.ProductDaoImpl;
 import static data.ProductDaoImpl.pList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -24,8 +22,8 @@ public class ProductMenu {
 
     public static void showMenu() throws Exception {
         FileManager fm = new FileManager();
-
-        int choice = 0;
+        pd.loadDataFromFile();
+        int choice;
         do {
 
             System.out.println("//---------------------------------------------------------//");
@@ -67,14 +65,16 @@ public class ProductMenu {
 
     public static Product getNewProduct() {
         String newCode, newName, newManufacturingDate, newExpirationDate, newType;
+        int newQuantity;
 
         newCode = getCodeProduct();
         newName = getNameProduct();
         newManufacturingDate = getManufacturingDate();
         newExpirationDate = getExpirationDate();
         newType = getType();
+        newQuantity = getQuantity();
 
-        Product newProduct = new Product(newCode, newName, newManufacturingDate, newExpirationDate, newType);
+        Product newProduct = new Product(newCode, newName, newManufacturingDate, newExpirationDate, newType, newQuantity);
         return newProduct;
     }
 
@@ -87,21 +87,28 @@ public class ProductMenu {
 
     public static void deleteProduct() {
         String id = DataInput.getString("Enter code of product you need to delete!");
-        try {
-            productService.delete(id);
-        } catch (Exception ex) {
+        for (Product p : pList) {
+            if (p.getCode().equalsIgnoreCase(id)) {
+                String choice = DataInput.getString("The product exist! Are you continue delete it? Y/N");
+                if (choice.equalsIgnoreCase("y")) {
+                    try {
+                        productService.delete(id);
+                    } catch (Exception e) {
+                    }
+                }
+            }
         }
     }
 
-    private static void updateProduct() {
+    public static void updateProduct() {
         String id = DataInput.getString("Enter code of product you need to update!");
         for (Product p : pList) {
             if (p.getCode().equalsIgnoreCase(id)) {
                 String choice = DataInput.getString("The product exist! Are you continue update it? Y/N");
                 if (choice.equalsIgnoreCase("y")) {
                     try {
-                        Product tmp = new Product(id, getNameProduct(), getManufacturingDate(), getExpirationDate(), getType());
-                        productService.update(id,tmp);
+                        Product tmp = new Product(id, getNameProduct(), getManufacturingDate(), getExpirationDate(), getType(), getQuantity());
+                        productService.update(id, tmp);
                     } catch (Exception ex) {
                     }
                 }
@@ -123,17 +130,29 @@ public class ProductMenu {
     }
 
     public static String getManufacturingDate() {
-        String newManufacturingdate = DataInput.getString("Enter manufacturing date of product");
+        String newManufacturingdate = DataInput.getDate("Enter manufacturing date of product!  ex. dd-mm-yy");
         return newManufacturingdate;
     }
 
     public static String getExpirationDate() {
-        String newExpirationDate = DataInput.getString("Enter expiration date of product!");
+        String newExpirationDate = DataInput.getDate("Enter expiration date of product!  ex. dd-mm-yy");
         return newExpirationDate;
     }
 
     public static String getType() {
-        String newType = DataInput.getString("Enter type of product!");
+        String tmp = DataInput.getTypeProduct("Enter type of product! 0 -> DAILY / 1 -> LONG-LIFE");
+        String newType;
+        if (tmp.equals("0")) {
+            newType = "DAILY-USE";
+        } else if (tmp.equals("1")) {
+            newType = "LONG-LIFE-USE";
+        } else {
+            newType ="";
+        }
         return newType;
+    }
+    public static int getQuantity(){
+        int newQuantity = DataInput.getInt("Enter quantity of product!");
+        return newQuantity;
     }
 }

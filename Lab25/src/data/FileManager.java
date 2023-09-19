@@ -7,9 +7,7 @@ package data;
 import business.entity.Product;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,20 +20,10 @@ import java.util.List;
  */
 public class FileManager implements IFile {
     
-    
-    @Override
-    public File createNewFile() throws Exception {
-        File f = new File("Product.txt");
-        try {
-            f.createNewFile();
-        } catch (IOException e) {
-
-        }
-        return f;
-    }
+ 
 
     public void writeDataToFile(List<Product> list) throws FileNotFoundException {
-        File fTmp = new File("C:\\Users\\lyhai\\OneDrive\\Documents\\NetBeansProjects\\On pE\\Lab211\\Lab25\\src\\Product.txt");
+        File fTmp = new File("C:\\Users\\lyhai\\OneDrive\\Documents\\NetBeansProjects\\On pE\\Lab211\\Lab25\\src\\data\\Product.txt");
         PrintWriter pw = new PrintWriter(fTmp);
         for (Product e : list) {
             pw.println(e);
@@ -44,12 +32,11 @@ public class FileManager implements IFile {
     }
 
     @Override
-    public List<String> readDateFromFile() throws Exception {
+    public List<String> readDataFromFile() throws Exception {
         List<String> result;
-        Path filePath = Paths.get("C:\\Users\\lyhai\\OneDrive\\Documents\\NetBeansProjects\\On pE\\Lab211\\Lab25\\src\\Product.txt");
+        Path filePath = Paths.get("C:\\Users\\lyhai\\OneDrive\\Documents\\NetBeansProjects\\On pE\\Lab211\\Lab25\\src\\data\\Product.txt");
         
-        result = Files.readAllLines(filePath, StandardCharsets.UTF_16);
-        
+        result = Files.readAllLines(filePath, StandardCharsets.UTF_8);
         return result;
     }
 
