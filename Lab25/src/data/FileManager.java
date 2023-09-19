@@ -7,24 +7,32 @@ package data;
 import business.entity.Product;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**
  *
  * @author lyhai
  */
-public class FileManager implements IFile {
-    
- 
+public class FileManager implements IManagerFile {
 
-    public void writeDataToFile(List<Product> list) throws FileNotFoundException {
-        File fTmp = new File("C:\\Users\\lyhai\\OneDrive\\Documents\\NetBeansProjects\\On pE\\Lab211\\Lab25\\src\\data\\Product.txt");
-        PrintWriter pw = new PrintWriter(fTmp);
+    private File inputFile;
+
+    public FileManager(String fileName) throws IOException {
+        inputFile = new File(fileName);
+
+        if (!inputFile.exists()) {
+            if (!inputFile.createNewFile()) {
+                throw new RuntimeException("Can not create product.txt file");
+            }
+        }
+    }
+
+    public void writeDataToFile(List<Product> list) throws Exception {
+        PrintWriter pw = new PrintWriter(inputFile);
         for (Product e : list) {
             pw.println(e);
         }
@@ -33,11 +41,7 @@ public class FileManager implements IFile {
 
     @Override
     public List<String> readDataFromFile() throws Exception {
-        List<String> result;
-        Path filePath = Paths.get("C:\\Users\\lyhai\\OneDrive\\Documents\\NetBeansProjects\\On pE\\Lab211\\Lab25\\src\\data\\Product.txt");
-        
-        result = Files.readAllLines(filePath, StandardCharsets.UTF_8);
-        return result;
+        return  Files.readAllLines(inputFile.toPath(), StandardCharsets.UTF_8);
     }
 
 }

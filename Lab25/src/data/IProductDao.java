@@ -15,4 +15,7 @@ public interface IProductDao extends DAO<Product> {
     boolean update(String code, Product newP) throws Exception;
     boolean delete(String code) throws Exception;
     boolean printList() throws Exception;
+
+
+    void saveFile() throws Exception;
 }

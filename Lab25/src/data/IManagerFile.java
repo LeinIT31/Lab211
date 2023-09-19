@@ -5,14 +5,15 @@
 package data;
 
 import business.entity.Product;
-import java.io.File;
+
 import java.util.List;
 
 /**
  *
  * @author lyhai
  */
-public interface IFile {
+public interface IManagerFile {
     List<String> readDataFromFile() throws Exception;
 
+    void writeDataToFile(List<Product> list) throws Exception;
 }

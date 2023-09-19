@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class ProductService implements IProductService {
 
-    IProductDao rawProduct = new ProductDaoImpl();
+    IProductDao rawProduct = ProductDaoImpl.getInstance();
 
     @Override
-    public void addNew(Product p) throws Exception {
+    public void addNew(Product p) {
         try {
             boolean isCheck = rawProduct.add(p);
             if (isCheck) {
@@ -58,7 +58,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void printList() throws Exception {
+    public void printList() {
 
         try {
             boolean isCheck = rawProduct.printList();
@@ -74,6 +74,11 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getList() throws Exception {
         return rawProduct.getList();
+    }
+
+    @Override
+    public void saveFile() throws Exception {
+        rawProduct.saveFile();
     }
 
 }

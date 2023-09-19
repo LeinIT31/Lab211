@@ -8,7 +8,6 @@ import business.entity.Product;
 import business.utilities.DataInput;
 import business.service.ProductService;
 import data.FileManager;
-import data.ProductDaoImpl;
 import static data.ProductDaoImpl.pList;
 
 /**
@@ -17,12 +16,9 @@ import static data.ProductDaoImpl.pList;
  */
 public class ProductMenu {
 
-    static ProductService productService = new ProductService();
-    static ProductDaoImpl pd = new ProductDaoImpl();
+    private static final ProductService productService = new ProductService();
 
     public static void showMenu() throws Exception {
-        FileManager fm = new FileManager();
-        pd.loadDataFromFile();
         int choice;
         do {
 
@@ -55,7 +51,8 @@ public class ProductMenu {
                     break;
                 }
                 case 5: {
-                    fm.writeDataToFile(productService.getList());
+                    productService.saveFile();
+//                    fm.writeDataToFile(productService.getList());
                     break;
                 }
             }
