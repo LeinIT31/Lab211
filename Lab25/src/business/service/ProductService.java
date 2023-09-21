@@ -23,6 +23,7 @@ public class ProductService implements IProductService {
             boolean isCheck = rawProduct.add(p);
             if (isCheck) {
                 System.out.println("Add product successfully!");
+                    
             } else {
                 System.out.println("Add failed!");
             }

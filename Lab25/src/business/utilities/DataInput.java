@@ -86,4 +86,19 @@ public class DataInput {
         return date;
 
     }
+    public static String getProduct(String message){
+         String var = "";
+        boolean check = false;
+
+        while (check == false) {
+            try {
+                System.out.println(message);
+                var = sc.nextLine();
+                check = vIO.productCodeExist(var);
+            } catch (Exception e) {
+                System.out.println("Input invalid!");
+            }
+        }
+        return var;
+    }
 }

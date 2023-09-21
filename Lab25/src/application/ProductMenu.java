@@ -7,7 +7,6 @@ package application;
 import business.entity.Product;
 import business.utilities.DataInput;
 import business.service.ProductService;
-import data.FileManager;
 import static data.ProductDaoImpl.pList;
 
 /**
@@ -52,7 +51,6 @@ public class ProductMenu {
                 }
                 case 5: {
                     productService.saveFile();
-//                    fm.writeDataToFile(productService.getList());
                     break;
                 }
             }
@@ -76,8 +74,18 @@ public class ProductMenu {
     }
 
     public static void addNewProduct() {
+
         try {
             productService.addNew(getNewProduct());
+
+            System.out.println("Are you want to add countinous? Y/N");
+            String choice = DataInput.getString("");
+
+            while (choice.equalsIgnoreCase("y")) {
+                productService.addNew(getNewProduct());
+                System.out.println("Are you want to add countinous? Y/N");
+                choice = DataInput.getString("");
+            }
         } catch (Exception e) {
         }
     }
@@ -109,7 +117,7 @@ public class ProductMenu {
                     } catch (Exception ex) {
                     }
                 }
-            }
+            } else System.out.println("The product not exist!");
         }
     }
 
@@ -144,11 +152,12 @@ public class ProductMenu {
         } else if (tmp.equals("1")) {
             newType = "LONG-LIFE-USE";
         } else {
-            newType ="";
+            newType = "";
         }
         return newType;
     }
-    public static int getQuantity(){
+
+    public static int getQuantity() {
         int newQuantity = DataInput.getInt("Enter quantity of product!");
         return newQuantity;
     }

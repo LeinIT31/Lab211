@@ -34,7 +34,10 @@ public class Program {
                     m.manageProduct();
                     break;
                 }
-                    
+                case 2:{
+                    m.managerWareHouse();
+                    break;
+                }
                 default:
                     break;
             }

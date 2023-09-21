@@ -39,10 +39,16 @@ public class Validation {
     public boolean formType(String var) {
         if (var.equals("0") || var.equals("1") || var.isEmpty()) {
             return true;
-        } 
+        }
         return false;
     }
-    public boolean formDate(String var){
+
+    public boolean formDate(String var) {
         return (var.matches("\\d{1,2}-\\d{1,2}-\\d{4}"));
     }
+
+    public boolean productCodeExist(String code) {
+        return formCode(code) && !checkCodeExist(code);
+    }
+
 }
