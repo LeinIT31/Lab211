@@ -7,17 +7,15 @@ package application;
 import business.entity.Product;
 import business.utilities.DataInput;
 import business.service.ProductService;
-import static data.ProductDaoImpl.pList;
 
 /**
- *
  * @author lyhai
  */
 public class ProductMenu {
 
-    private static final ProductService productService = new ProductService();
+    private final ProductService productService = new ProductService();
 
-    public static void showMenu() throws Exception {
+    public void showMenu() throws Exception {
         int choice;
         do {
 
@@ -58,7 +56,7 @@ public class ProductMenu {
         } while (choice >= 1 && choice <= 5);
     }
 
-    public static Product getNewProduct() {
+    public Product getNewProduct() {
         String newCode, newName, newManufacturingDate, newExpirationDate, newType;
         int newQuantity;
 
@@ -73,7 +71,7 @@ public class ProductMenu {
         return newProduct;
     }
 
-    public static void addNewProduct() {
+    public void addNewProduct() {
 
         try {
             productService.addNew(getNewProduct());
@@ -90,9 +88,9 @@ public class ProductMenu {
         }
     }
 
-    public static void deleteProduct() {
+    public void deleteProduct() {
         String id = DataInput.getString("Enter code of product you need to delete!");
-        for (Product p : pList) {
+        for (Product p : productService.getList()) {
             if (p.getCode().equalsIgnoreCase(id)) {
                 String choice = DataInput.getString("The product exist! Are you continue delete it? Y/N");
                 if (choice.equalsIgnoreCase("y")) {
@@ -105,9 +103,9 @@ public class ProductMenu {
         }
     }
 
-    public static void updateProduct() {
+    public void updateProduct() {
         String id = DataInput.getString("Enter code of product you need to update!");
-        for (Product p : pList) {
+        for (Product p : productService.getList()) {
             if (p.getCode().equalsIgnoreCase(id)) {
                 String choice = DataInput.getString("The product exist! Are you continue update it? Y/N");
                 if (choice.equalsIgnoreCase("y")) {
@@ -121,7 +119,7 @@ public class ProductMenu {
         }
     }
 
-    public static String getCodeProduct() {
+    public String getCodeProduct() {
         String code;
 
         code = DataInput.getStringCode("Enter code of product!");
@@ -129,22 +127,22 @@ public class ProductMenu {
         return code;
     }
 
-    public static String getNameProduct() {
+    public String getNameProduct() {
         String nameProduct = DataInput.getString("Enter name of product!");
         return nameProduct;
     }
 
-    public static String getManufacturingDate() {
+    public String getManufacturingDate() {
         String newManufacturingdate = DataInput.getDate("Enter manufacturing date of product!  ex. dd-mm-yy");
         return newManufacturingdate;
     }
 
-    public static String getExpirationDate() {
+    public String getExpirationDate() {
         String newExpirationDate = DataInput.getDate("Enter expiration date of product!  ex. dd-mm-yy");
         return newExpirationDate;
     }
 
-    public static String getType() {
+    public String getType() {
         String tmp = DataInput.getTypeProduct("Enter type of product! 0 -> DAILY / 1 -> LONG-LIFE");
         String newType;
         if (tmp.equals("0")) {
@@ -157,7 +155,7 @@ public class ProductMenu {
         return newType;
     }
 
-    public static int getQuantity() {
+    public int getQuantity() {
         int newQuantity = DataInput.getInt("Enter quantity of product!");
         return newQuantity;
     }

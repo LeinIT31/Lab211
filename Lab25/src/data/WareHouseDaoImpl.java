@@ -17,16 +17,17 @@ import java.util.List;
 public class WareHouseDaoImpl implements IWareHouseDao {
 
     private IManagerFile wManagerFile;
+    private IManagerFile itemManagerFile;
     private static final List<Receipt> receiptList = new ArrayList<>();
 
     public WareHouseDaoImpl() {
         try {
             wManagerFile = new FileManager("wareHouse.txt");
+            itemManagerFile = new FileManager("ItemReceipt.txt");
             loadDataFromFile();
-
-        } catch (Exception e) {
-        }
+        } catch (Exception ignored) {}
     }
+
     private static IWareHouseDao INSTANCE = null;
 
     public static IWareHouseDao getInstance() {
@@ -45,10 +46,8 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     }
 
     @Override
-    public List<Receipt> getList() throws Exception {
-        
+    public List<Receipt> getList() {
         return receiptList;
-        
     }
 
     private void loadDataFromFile() throws Exception {
@@ -86,7 +85,8 @@ public class WareHouseDaoImpl implements IWareHouseDao {
         address = raw.get(5).trim();
         seller = raw.get(6).trim();
 
-        return new Receipt(receiptID, types, product, quantity, time, customer, address, seller);
+//        return null
+//        return new Receipt(receiptID, types, product, quantity, time, customer, address, seller);
     }
 
     @Override

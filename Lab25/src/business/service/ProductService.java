@@ -62,18 +62,20 @@ public class ProductService implements IProductService {
     public void printList() {
 
         try {
-            boolean isCheck = rawProduct.printList();
-            if (isCheck) {
-                System.out.println("Print successfully!");
-            } else {
-                System.out.println("List null");
-            }
+//            boolean isCheck = rawProduct.printList();
+            List<Product> productList = rawProduct.getList();
+
+//            if (isCheck) {
+//                System.out.println("Print successfully!");
+//            } else {
+//                System.out.println("List null");
+//            }
         } catch (Exception e) {
         }
     }
 
     @Override
-    public List<Product> getList() throws Exception {
+    public List<Product> getList() {
         return rawProduct.getList();
     }
 

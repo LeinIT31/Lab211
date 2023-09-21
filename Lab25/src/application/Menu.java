@@ -12,12 +12,14 @@ public class Menu implements IMenu {
 
     @Override
     public void manageProduct() throws Exception {
-        ProductMenu.showMenu();
+        ProductMenu productMenu = new ProductMenu();
+        productMenu.showMenu();
     }
 
     @Override
     public void managerWareHouse() throws Exception {
-        WareHouseMenu.showMenu();
+        WareHouseMenu wareHouseMenu = new WareHouseMenu();
+        wareHouseMenu.showMenu();
     }
 
     @Override

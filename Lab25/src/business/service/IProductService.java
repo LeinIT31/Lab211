@@ -17,6 +17,5 @@ public interface IProductService {
     void update(String code, Product p) throws Exception;
     void printList() throws Exception;
     List<Product> getList() throws Exception;
-
     void saveFile() throws Exception;
 }

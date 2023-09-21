@@ -8,8 +8,6 @@ import business.entity.Product;
 import business.entity.Receipt;
 import business.service.WareHouseService;
 import business.utilities.DataInput;
-import static data.ProductDaoImpl.pList;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 /**
@@ -18,10 +16,10 @@ import java.util.Scanner;
  */
 public class WareHouseMenu {
 
-    private static final WareHouseService wareHouseService = new WareHouseService();
+    private final WareHouseService wareHouseService = new WareHouseService();
     static Scanner sc = new Scanner(System.in);
 
-    public static void showMenu() throws Exception {
+    public void showMenu() throws Exception {
         int choice;
 
         do {
@@ -57,18 +55,19 @@ public class WareHouseMenu {
         } while (choice >= 1 && choice <= 4);
     }
 
-    public static void addImportReceipt() throws Exception {
+    public void addImportReceipt() throws Exception {
         wareHouseService.addProductToReceipt(getImportReceipt());
         incrementingNumber++;
     }
 
-    public static void addExportReceipt() throws Exception {
+    public  void addExportReceipt() throws Exception {
         wareHouseService.addProductToReceipt(getExportReceipt());
         incrementingNumber++;
     }
 
-    public static Receipt getImportReceipt() throws Exception {
-        String receiptID, type, time, customer, address, seller, productID;
+    public  Receipt getImportReceipt() throws Exception {
+        String receiptID, type, customer, address, seller, productID;
+        long time;
         int quantity;
         Product product;
         
@@ -82,13 +81,15 @@ public class WareHouseMenu {
         address = getAddress();
         seller = getSeller();
 
-        return new Receipt(receiptID, type, product, quantity, time, customer, address, seller);
+        return null;
 
     }
 
-    public static Receipt getExportReceipt() throws Exception {
-        String receiptID, type, time, customer, address, seller, productID;
+    public  Receipt getExportReceipt() throws Exception {
+        String receiptID, type, customer, address, seller, productID;
         int quantity;
+        long time;
+
         Product product;
         
         receiptID = getReceiptID();
@@ -102,13 +103,13 @@ public class WareHouseMenu {
         address = getAddress();
         seller = getSeller();
 
-        return new Receipt(receiptID, type, product, quantity, time, customer, address, seller);
+        return null;
 
     }
 
-    private static int incrementingNumber = 0;
+    private  int incrementingNumber = 0;
 
-    private static String getReceiptID() throws Exception {
+    private  String getReceiptID() throws Exception {
         int tmp;
         int lenght = wareHouseService.listCheck().size();
         if(lenght == 0){
@@ -119,46 +120,44 @@ public class WareHouseMenu {
         return id;
     }
 
-    private static String getTime() {
-        LocalDateTime now = LocalDateTime.now();
-        String tmp = String.valueOf(now);
-        return tmp;
+    private  long getTime() {
+        return System.currentTimeMillis();
     }
 
-    private static Product getProduct(String productID, int quantity) {
-        String code, name, manufacturingDate, expirationDate, type;
-        int newQuantity;
-        for (Product product : pList) {
-            if (product.getCode().equalsIgnoreCase(productID)) {
-                code = product.getCode();
-                name = product.getName();
-                manufacturingDate = product.getManufacturingDate();
-                expirationDate = product.getExpirationDate();
-                type = product.getTypes();
-                newQuantity = quantity;
-                Product p = new Product(code, name, manufacturingDate, expirationDate, type, quantity);
-                return p;
-            }
-        }
+    private  Product getProduct(String productID, int quantity) {
+//        String code, name, manufacturingDate, expirationDate, type;
+//        int newQuantity;
+//        for (Product product : pList) {
+//            if (product.getCode().equalsIgnoreCase(productID)) {
+//                code = product.getCode();
+//                name = product.getName();
+//                manufacturingDate = product.getManufacturingDate();
+//                expirationDate = product.getExpirationDate();
+//                type = product.getTypes();
+//                newQuantity = quantity;
+//                Product p = new Product(code, name, manufacturingDate, expirationDate, type, quantity);
+//                return p;
+//            }
+//        }
         return null;
     }
 
-    private static String getCustomer() {
+    private  String getCustomer() {
         String customer = DataInput.getString("Enter name of customer!");
         return customer;
     }
 
-    private static String getAddress() {
+    private  String getAddress() {
         String address = DataInput.getString("Enter address of customer!!");
         return address;
     }
 
-    private static String getSeller() {
+    private  String getSeller() {
         String seller = DataInput.getString("Enter name of seller!");
         return seller;
     }
 
-    private static int getQuantity() {
+    private  int getQuantity() {
         int quantity = DataInput.getInt("Enter the quantity of product to pick up");
         return quantity;
     }
