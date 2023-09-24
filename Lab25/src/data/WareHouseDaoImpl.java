@@ -4,10 +4,12 @@
  */
 package data;
 
+import business.entity.ItemReceipt;
 import business.entity.Product;
 import business.entity.Receipt;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,14 +20,17 @@ public class WareHouseDaoImpl implements IWareHouseDao {
 
     private IManagerFile wManagerFile;
     private IManagerFile itemManagerFile;
-    private static final List<Receipt> receiptList = new ArrayList<>();
+    private final List<Receipt> receiptList = new ArrayList<>();
+    private final HashMap<String, List<ItemReceipt>> itemReceiptMap = new HashMap<>();
 
     public WareHouseDaoImpl() {
         try {
             wManagerFile = new FileManager("wareHouse.txt");
             itemManagerFile = new FileManager("ItemReceipt.txt");
+            loadItemReceiptFromFile();
             loadDataFromFile();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     private static IWareHouseDao INSTANCE = null;
@@ -51,42 +56,26 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     }
 
     private void loadDataFromFile() throws Exception {
-        if (receiptList.isEmpty()) {
-            for (String r : wManagerFile.readDataFromFile()) {
-                receiptList.add(convertStringToReceipt(r));
-            }
+        for (String r : wManagerFile.readDataFromFile()) {
+            receiptList.add(convertStringToReceipt(r));
         }
     }
 
     private Receipt convertStringToReceipt(String rawReceipt) {
-        String receiptID, typeReceipt, time, customer, address, seller;
-        
-        int quantity;
-
+        String receiptID, type, customer, customerAddress, seller, sellerAddress;
+        long time;
         List<String> raw = Arrays.asList(rawReceipt.split(","));
 
         receiptID = raw.get(0).trim();
-        typeReceipt = raw.get(1).trim();
+        type = raw.get(1).trim();
+        time = Integer.parseInt(raw.get(2).trim());
+        customer = raw.get(3).trim();
+        customerAddress = raw.get(4).trim();
+        seller = raw.get(5).trim();
+        sellerAddress = raw.get(6).trim();
         
-        //Convert product:
-        
-        String productID, name, manufacturingDate, expirationDate, types;
-        productID = raw.get(2).trim();
-        
-        name = raw.get(3).trim();
-        manufacturingDate = raw.get(4).trim();
-        expirationDate = raw.get(5).trim();
-        types = raw.get(6).trim();
-        quantity = Integer.parseInt(raw.get(7).trim());
-        Product product = new Product(productID, name, manufacturingDate, expirationDate, types, quantity);
-        
-        time = raw.get(3).trim();
-        customer = raw.get(4).trim();
-        address = raw.get(5).trim();
-        seller = raw.get(6).trim();
-
-//        return null
-//        return new Receipt(receiptID, types, product, quantity, time, customer, address, seller);
+        List<ItemReceipt> itemList = itemReceiptMap.get(receiptID);
+        return new Receipt(receiptID, type, time, customer, customerAddress, seller, sellerAddress, itemList);
     }
 
     @Override
@@ -111,4 +100,32 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     public void saveFile() throws Exception {
         wManagerFile.writeReceiptToFile(receiptList);
     }
+
+    private void loadItemReceiptFromFile() throws Exception {
+        for (String r : itemManagerFile.readDataFromFile()) {
+            ItemReceipt item = converStringToItemReceipt(r);
+            List<ItemReceipt> list = itemReceiptMap.get(item.getReceiptId());
+            if (list == null) {
+                list = new ArrayList<>();
+                itemReceiptMap.put(item.getReceiptId(), list);
+            }
+            list.add(item);
+        }
+    }
+
+    private ItemReceipt converStringToItemReceipt(String rawItemReceipt) {
+        String code, receiptID, productName;
+        int price, quantity;
+
+        List<String> raw = Arrays.asList(rawItemReceipt.split(","));
+
+        code = raw.get(0).trim();
+        receiptID = raw.get(1).trim();
+        productName = raw.get(2).trim();
+        price = Integer.parseInt(raw.get(3).trim());
+        quantity = Integer.parseInt(raw.get(4).trim());
+
+        return new ItemReceipt(code, receiptID, productName, 0, 0);
+    }
+
 }

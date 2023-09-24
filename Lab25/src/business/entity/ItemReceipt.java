@@ -26,6 +26,10 @@ public class ItemReceipt {
         return code;
     }
 
+    public String getReceiptId() {
+        return receiptId;
+    }
+
     public String getProductName() {
         return productName;
     }

@@ -1,3 +1,1 @@
-0000000,IMPORT,1694437634776,Luan,Ben tre, Viet, An Giang
-
-
+business.entity.Receipt@2b71fc7e

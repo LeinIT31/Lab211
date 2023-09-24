@@ -4,6 +4,11 @@
  */
 package business.utilities;
 
+import application.ProductMenu;
+import business.entity.Product;
+import data.IProductDao;
+import data.ProductDaoImpl;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,6 +16,8 @@ import java.util.Scanner;
  * @author lyhai
  */
 public class DataInput {
+
+    static IProductDao rawProduct = ProductDaoImpl.getInstance();
 
     static Scanner sc = new Scanner(System.in);
     static Validation vIO = new Validation();
@@ -86,19 +93,41 @@ public class DataInput {
         return date;
 
     }
-    public static String getProduct(String message){
-         String var = "";
-        boolean check = false;
 
-        while (check == false) {
-            try {
-                System.out.println(message);
-                var = sc.nextLine();
-                check = vIO.productCodeExist(var);
-            } catch (Exception e) {
-                System.out.println("Input invalid!");
+    public static Product getProductForImport(String message) {
+        String productID = sc.nextLine();
+        List<Product> listCheck = rawProduct.getList();
+
+        boolean isCheck = vIO.checkProduct(productID);
+        if (isCheck == false) {
+            System.out.println("The product not exist. Let's add new product");
+            ProductMenu pm = new ProductMenu();
+            return pm.getNewProduct();
+        }
+        for (Product product : listCheck) {
+            if (product.getCode().equalsIgnoreCase(productID)) {
+                return product;
             }
         }
-        return var;
+        return null;
+
+    }
+
+    public static Product getProductForExport(String message) {
+        List<Product> listCheck = rawProduct.getList();
+        
+        Product p = null;
+        
+        while(p != null) {
+            System.out.println(message);
+            String productID = sc.nextLine();
+            for (Product product : listCheck){
+                if(product.getCode().equalsIgnoreCase(productID)){
+                    p = product;
+                }
+            }
+        }
+        
+        return p;
     }
 }
