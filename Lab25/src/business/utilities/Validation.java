@@ -5,6 +5,7 @@
 package business.utilities;
 
 import business.entity.Product;
+import data.IProductDao;
 import data.ProductDaoImpl;
 import java.util.List;
 
@@ -13,8 +14,8 @@ import java.util.List;
  * @author lyhai
  */
 public class Validation {
-
-    static List<Product> listCheck = ProductDaoImpl.pList;
+    IProductDao rawProduct = ProductDaoImpl.getInstance();
+    List<Product> listCheck = rawProduct.getList();
 
     public boolean formCode(String code) {
         return code.matches("^P\\d{3}");
@@ -39,10 +40,23 @@ public class Validation {
     public boolean formType(String var) {
         if (var.equals("0") || var.equals("1") || var.isEmpty()) {
             return true;
-        } 
+        }
         return false;
     }
-    public boolean formDate(String var){
+
+    public boolean formDate(String var) {
         return (var.matches("\\d{1,2}-\\d{1,2}-\\d{4}"));
+    }
+
+    public boolean productCodeExist(String code) {
+        return formCode(code) && !checkCodeExist(code);
+    }
+    public boolean checkProduct(String var){
+        for (Product product : listCheck) {
+            if (product.getCode().equalsIgnoreCase(var)){
+                return true;
+            }
+        }
+        return false;
     }
 }

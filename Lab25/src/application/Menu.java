@@ -12,12 +12,14 @@ public class Menu implements IMenu {
 
     @Override
     public void manageProduct() throws Exception {
-        ProductMenu.showMenu();
+        ProductMenu productMenu = new ProductMenu();
+        productMenu.showMenu();
     }
 
     @Override
     public void managerWareHouse() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        WareHouseMenu wareHouseMenu = new WareHouseMenu();
+        wareHouseMenu.showMenu();
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ProductDaoImpl implements IProductDao {
 
-    public static final List<Product> pList = new ArrayList<>();
+    public final List<Product> pList = new ArrayList<>();
     private IManagerFile pFileManager;
 
     public ProductDaoImpl() {
@@ -84,13 +84,13 @@ public class ProductDaoImpl implements IProductDao {
         return pList;
     }
 
-    @Override
-    public boolean printList() {
-        for (Product p : pList) {
-            System.out.println(p);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean printList() {
+//        for (Product p : pList) {
+//            System.out.println(p);
+//        }
+//        return true;
+//    }
 
     private void loadDataFromFile() throws Exception {
         if (pList.isEmpty()) {
