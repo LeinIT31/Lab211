@@ -46,4 +46,9 @@ public class ItemReceipt {
         return price * quantity;
     }
 
+    @Override
+    public String toString() {
+        return code + "," + productName + "," + price + "," + quantity;
+    }
+
 }

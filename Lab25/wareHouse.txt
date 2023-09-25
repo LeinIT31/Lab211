@@ -1,1 +1,1 @@
-business.entity.Receipt@2b71fc7e
+0000000,IMPORT,1695578889461,Lyhailuan,dad,ff,dd,[P001,Durex,3,21]

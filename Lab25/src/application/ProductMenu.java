@@ -7,6 +7,9 @@ package application;
 import business.entity.Product;
 import business.utilities.DataInput;
 import business.service.ProductService;
+import data.IProductDao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author lyhai
@@ -14,7 +17,7 @@ import business.service.ProductService;
 public class ProductMenu {
 
     private final ProductService productService = new ProductService();
-
+    
     public void showMenu() throws Exception {
         int choice;
         do {
@@ -58,7 +61,7 @@ public class ProductMenu {
 
     public Product getNewProduct() {
         String newCode, newName, newManufacturingDate, newExpirationDate, newType;
-        int newQuantity;
+        int newQuantity, newPrice;
 
         newCode = getCodeProduct();
         newName = getNameProduct();
@@ -66,9 +69,10 @@ public class ProductMenu {
         newExpirationDate = getExpirationDate();
         newType = getType();
         newQuantity = getQuantity();
+        newPrice = getPrice();
 
-        Product newProduct = new Product(newCode, newName, newManufacturingDate, newExpirationDate, newType, newQuantity);
-        return newProduct;
+        
+        return new Product(newCode, newName, newManufacturingDate, newExpirationDate, newType, newQuantity, newPrice);
     }
 
     public void addNewProduct() {
@@ -90,33 +94,50 @@ public class ProductMenu {
 
     public void deleteProduct() {
         String id = DataInput.getString("Enter code of product you need to delete!");
-        for (Product p : productService.getList()) {
-            if (p.getCode().equalsIgnoreCase(id)) {
-                String choice = DataInput.getString("The product exist! Are you continue delete it? Y/N");
-                if (choice.equalsIgnoreCase("y")) {
-                    try {
-                        productService.delete(id);
-                    } catch (Exception e) {
+        try {
+            for (Product p : productService.getList()) {
+                if (p.getCode().equalsIgnoreCase(id)) {
+                    String choice = DataInput.getString("The product exist! Are you continue delete it? Y/N");
+                    if (choice.equalsIgnoreCase("y")) {
+                        try {
+                            productService.delete(id);
+                        } catch (Exception e) {
+                        }
                     }
                 }
             }
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
-    public void updateProduct() {
+    public void updateProduct() throws Exception {
         String id = DataInput.getString("Enter code of product you need to update!");
-        for (Product p : productService.getList()) {
-            if (p.getCode().equalsIgnoreCase(id)) {
-                String choice = DataInput.getString("The product exist! Are you continue update it? Y/N");
-                if (choice.equalsIgnoreCase("y")) {
-                    try {
-                        Product tmp = new Product(id, getNameProduct(), getManufacturingDate(), getExpirationDate(), getType(), getQuantity());
-                        productService.update(id, tmp);
-                    } catch (Exception ex) {
+            for (Product p : productService.getList()) {
+                if (p.getCode().equalsIgnoreCase(id)) {
+                    String choice = DataInput.getString("The product exist! Are you continue update it? Y/N");
+                    if (choice.equalsIgnoreCase("y")) {
+                        String productName, manufacturingDate, expirationDate, type;
+                        int quantity, price;
+                        productName = getNameProduct();
+                            manufacturingDate = DataInput.getString("Enter new manufacturingDate of product");
+                            if(!manufacturingDate.isEmpty()){
+                                manufacturingDate = getManufacturingDate();
+                            }
+                            expirationDate = DataInput.getString("Enter new expirationDate of product");
+                            if(!expirationDate.isEmpty()){
+                                expirationDate = getExpirationDate();
+                            }
+                            type = getType();
+                            
+                            quantity = DataInput.getIntForUpdate("Enter new quantity for product!");
+                            price = DataInput.getIntForUpdate(type);
+                            
+                            Product tmp = new Product(id, productName, manufacturingDate, expirationDate, type, quantity, price);
+                            productService.update(id, tmp);
                     }
                 }
-            } else System.out.println("The product not exist!");
-        }
+            }
     }
 
     public String getCodeProduct() {
@@ -159,4 +180,8 @@ public class ProductMenu {
         int newQuantity = DataInput.getInt("Enter quantity of product!");
         return newQuantity;
     }
+    public int getPrice(){
+        int newPrice = DataInput.getInt("Enter price of product!");
+        return newPrice;
+    }   
 }

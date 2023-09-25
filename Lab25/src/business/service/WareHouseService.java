@@ -47,14 +47,15 @@ public class WareHouseService implements IWareHouseService {
     @Override
     public void printList() {
         try {
-            rawReceipt.printList();
+            for (Receipt receipt : getList()) {
+                System.out.println(receipt);
+            }
         } catch (Exception ex) {
         }
     }
-    public List<Receipt> listCheck() throws Exception{
+    public List<Receipt> getList() throws Exception{
             return rawReceipt.getList();
        
     }
  
-
 }

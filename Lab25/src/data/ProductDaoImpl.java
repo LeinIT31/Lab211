@@ -57,6 +57,18 @@ public class ProductDaoImpl implements IProductDao {
                     p.setTypes(newP.getTypes());
                 }
 
+                
+                if (newP.getQuantity() == -1) {
+                    p.setQuantity(p.getQuantity());
+                } else {
+                    p.setQuantity(newP.getQuantity());
+                }
+
+                if (newP.getPrice() == -1) {
+                    p.setPrice(p.getPrice());
+                } else {
+                    p.setPrice(newP.getPrice());
+                }
             }
         }
         return true;
@@ -79,30 +91,15 @@ public class ProductDaoImpl implements IProductDao {
         return true;
     }
 
-    @Override
-    public List<Product> getList() {
-        return pList;
-    }
-
-//    @Override
-//    public boolean printList() {
-//        for (Product p : pList) {
-//            System.out.println(p);
-//        }
-//        return true;
-//    }
-
     private void loadDataFromFile() throws Exception {
-        if (pList.isEmpty()) {
-            for (String p : pFileManager.readDataFromFile()) {
-                pList.add(convertStringToProduct(p));
-            }
+        for (String p : pFileManager.readDataFromFile()) {
+            pList.add(convertStringToProduct(p));
         }
     }
 
     public Product convertStringToProduct(String rawProduct) {
         String code, name, manufacturingDate, expirationDate, types;
-        int quantity;
+        int quantity, price;
         List<String> raw = Arrays.asList(rawProduct.split(","));
 
         code = raw.get(0).trim().toUpperCase();
@@ -111,8 +108,8 @@ public class ProductDaoImpl implements IProductDao {
         expirationDate = raw.get(3).trim();
         types = raw.get(4).trim();
         quantity = Integer.parseInt(raw.get(5).trim());
-
-        return new Product(code, name, manufacturingDate, expirationDate, types, quantity);
+        price = Integer.parseInt(raw.get(6).trim());
+        return new Product(code, name, manufacturingDate, expirationDate, types, quantity, price);
     }
 
     @Override
@@ -130,4 +127,9 @@ public class ProductDaoImpl implements IProductDao {
         }
         return INSTANCE;
     }
+
+    public List<Product> getList() {
+        return pList;
+    }
+    
 }

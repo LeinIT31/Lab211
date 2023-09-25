@@ -59,23 +59,14 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void printList() {
-
-        try {
-//            boolean isCheck = rawProduct.printList();
-            List<Product> productList = rawProduct.getList();
-
-//            if (isCheck) {
-//                System.out.println("Print successfully!");
-//            } else {
-//                System.out.println("List null");
-//            }
-        } catch (Exception e) {
+    public void printList() throws Exception {
+        for (Product product : getList()) {
+            System.out.println(product);
         }
     }
 
     @Override
-    public List<Product> getList() {
+    public List<Product> getList() throws Exception {
         return rawProduct.getList();
     }
 

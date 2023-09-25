@@ -70,4 +70,9 @@ public class Receipt {
         return seller;
     }
 
+    @Override
+    public String toString() {
+        return receiptID + "," + type + "," + time + "," + customer + "," + customAddress + "," + seller + "," + sellerAddress + "," + itemList;
+    }
+
 }

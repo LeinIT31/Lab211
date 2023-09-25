@@ -21,6 +21,7 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     private IManagerFile wManagerFile;
     private IManagerFile itemManagerFile;
     private final List<Receipt> receiptList = new ArrayList<>();
+    private final List<ItemReceipt> itemReceiptList = new ArrayList<>();
     private final HashMap<String, List<ItemReceipt>> itemReceiptMap = new HashMap<>();
 
     public WareHouseDaoImpl() {
@@ -54,7 +55,9 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     public List<Receipt> getList() {
         return receiptList;
     }
-
+    public List<ItemReceipt> getItemReceipt(){
+        return itemReceiptList;
+    }
     private void loadDataFromFile() throws Exception {
         for (String r : wManagerFile.readDataFromFile()) {
             receiptList.add(convertStringToReceipt(r));
@@ -87,18 +90,11 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     public boolean delete(String code) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    @Override
-    public boolean printList() throws Exception {
-        for (Receipt receipt : receiptList) {
-            System.out.println(receipt);
-        }
-        return true;
-    }
-
+    
     @Override
     public void saveFile() throws Exception {
         wManagerFile.writeReceiptToFile(receiptList);
+        itemManagerFile.writeItemReceiptToFile(itemReceiptList);
     }
 
     private void loadItemReceiptFromFile() throws Exception {
