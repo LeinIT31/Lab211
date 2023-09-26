@@ -39,6 +39,7 @@ public class Program {
                     break;
                 }
                 default:
+                    m.managerReport();
                     break;
             }
         }while(choice >= 1 && choice <= 3);

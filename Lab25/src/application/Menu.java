@@ -23,8 +23,9 @@ public class Menu implements IMenu {
     }
 
     @Override
-    public void report() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void managerReport() throws Exception {
+        ReportMenu reportMenu = new ReportMenu();
+        reportMenu.showMenu();
     }
 
 }

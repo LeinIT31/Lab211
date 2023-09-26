@@ -4,10 +4,13 @@
  */
 package business.service;
 
+import business.entity.ItemReceipt;
 import business.entity.Receipt;
 import data.IWareHouseDao;
 import data.WareHouseDaoImpl;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -57,5 +60,15 @@ public class WareHouseService implements IWareHouseService {
             return rawReceipt.getList();
        
     }
- 
+    public List<ItemReceipt> getItemList() throws Exception{
+        return rawReceipt.getItemReceipt();
+    }
+    @Override
+    public void addItemReceipt(ItemReceipt i) {
+        try {
+            rawReceipt.addItemReceipt(i);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
 }

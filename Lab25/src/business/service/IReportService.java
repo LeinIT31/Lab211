@@ -2,14 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package application;
+package business.service;
 
 /**
  *
  * @author lyhai
  */
-public interface IMenu {
-    void manageProduct() throws Exception;
-    void managerWareHouse() throws Exception;
-    void managerReport() throws Exception;
+public interface IReportService {
+    void isExpired();
+    void isSelling();
+    void isRunningOut();
+    void showProductByCode(String code);
 }

@@ -4,6 +4,7 @@
  */
 package business.service;
 
+import business.entity.ItemReceipt;
 import business.entity.Receipt;
 
 /**
@@ -15,5 +16,6 @@ public interface IWareHouseService {
     void deleteProductToReceipt(String receiptID);
     void updateProductToReceipt(String receiptID);
     void printList();
+    void addItemReceipt(ItemReceipt i);
     
 }

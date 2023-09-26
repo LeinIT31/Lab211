@@ -3,17 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Lab">
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/utilities/Validation.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/application/ReportMenu.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/data/FileManager.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/test/Test1.java</file>
             <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/data/ProductDaoImpl.java</file>
             <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/data/IProductDao.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/entity/Receipt.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/utilities/DataInput.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/service/ReportService.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/data/IReportDao.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/data/WareHouseDaoImpl.java</file>
             <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/application/WareHouseMenu.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/entity/Product.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/application/ProductMenu.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/service/ProductService.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/service/WareHouseService.java</file>
-            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/application/Program.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/service/IReportService.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/business/service/IProductService.java</file>
+            <file>file:/C:/Users/lyhai/OneDrive/Documents/NetBeansProjects/On%20pE/Lab211/Lab25/src/data/ReportDao.java</file>
         </group>
     </open-files>
 </project-private>

@@ -50,7 +50,10 @@ public class WareHouseDaoImpl implements IWareHouseDao {
         receiptList.add(t);
         return true;
     }
-
+    
+    public void addItemReceipt(ItemReceipt i) throws Exception{
+        itemReceiptList.add(i);
+    }
     @Override
     public List<Receipt> getList() {
         return receiptList;
@@ -71,7 +74,7 @@ public class WareHouseDaoImpl implements IWareHouseDao {
 
         receiptID = raw.get(0).trim();
         type = raw.get(1).trim();
-        time = Integer.parseInt(raw.get(2).trim());
+        time = Long.parseLong(raw.get(2).trim());
         customer = raw.get(3).trim();
         customerAddress = raw.get(4).trim();
         seller = raw.get(5).trim();
@@ -100,7 +103,7 @@ public class WareHouseDaoImpl implements IWareHouseDao {
     private void loadItemReceiptFromFile() throws Exception {
         for (String r : itemManagerFile.readDataFromFile()) {
             ItemReceipt item = converStringToItemReceipt(r);
-            List<ItemReceipt> list = itemReceiptMap.get(item.getReceiptId());
+           List<ItemReceipt> list = itemReceiptMap.get(item.getReceiptId());
             if (list == null) {
                 list = new ArrayList<>();
                 itemReceiptMap.put(item.getReceiptId(), list);
@@ -121,7 +124,6 @@ public class WareHouseDaoImpl implements IWareHouseDao {
         price = Integer.parseInt(raw.get(3).trim());
         quantity = Integer.parseInt(raw.get(4).trim());
 
-        return new ItemReceipt(code, receiptID, productName, 0, 0);
+        return new ItemReceipt(code, receiptID, productName, price, quantity);
     }
-
 }

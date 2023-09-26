@@ -13,9 +13,6 @@ import data.IProductDao;
 import data.ProductDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +21,6 @@ import java.util.logging.Logger;
 public class WareHouseMenu {
 
     private final WareHouseService wareHouseService = new WareHouseService();
-    static Scanner sc = new Scanner(System.in);
     IProductDao productDaotmp = ProductDaoImpl.getInstance();
 
     public void showMenu() throws Exception {
@@ -35,6 +31,7 @@ public class WareHouseMenu {
             System.out.println("1.add import receipt!");
             System.out.println("2.add export receipt!");
             System.out.println("3.Save file");
+            System.out.println("4. Show all receipt");
             System.out.println("Other, exit.");
             System.out.println("//---------------------------------------------//");
             System.out.print("Select:");
@@ -76,7 +73,7 @@ public class WareHouseMenu {
     public Receipt getImportReceipt() throws Exception {
         String receiptID, type, customer, customerAddress, seller, sellerAddress;
         long time;
-        List<ItemReceipt> itemReceiptList;
+        List<ItemReceipt> itemReceiptList = new ArrayList<>();
         Product product;
 
         receiptID = getReceiptID();
@@ -86,7 +83,15 @@ public class WareHouseMenu {
         customerAddress = getCustomerAddress();
         seller = getSeller();
         sellerAddress = getSellerAddress();
-        itemReceiptList = getItemReceiptsListForImport();
+
+        //Allow input more product
+        String choice = "y";
+        while (choice.equalsIgnoreCase("y")) {
+            ItemReceipt item = getItemReceiptForImport(receiptID);
+            itemReceiptList.add(item);
+            wareHouseService.addItemReceipt(item);
+            choice = DataInput.getString("Are you want to add product? Y/N");
+        }
 
         return new Receipt(receiptID, type, time, customer, customerAddress, seller, sellerAddress, itemReceiptList);
     }
@@ -94,7 +99,7 @@ public class WareHouseMenu {
     public Receipt getExportReceipt() throws Exception {
         String receiptID, type, customer, customerAddress, seller, sellerAddress;
         long time;
-        List<ItemReceipt> itemReceiptList;
+        List<ItemReceipt> itemReceiptList = new ArrayList<>();
         Product product;
 
         receiptID = getReceiptID();
@@ -104,7 +109,15 @@ public class WareHouseMenu {
         customerAddress = getCustomerAddress();
         seller = getSeller();
         sellerAddress = getSellerAddress();
-        itemReceiptList = getItemReceiptsListForExport();
+
+        //Allow input more product
+        String choice = "y";
+        while (choice.equalsIgnoreCase("y")) {
+            ItemReceipt item = getItemReceiptForExport(receiptID);
+            itemReceiptList.add(item);
+            wareHouseService.addItemReceipt(item);
+            choice = DataInput.getString("Are you want to add product? Y/N");
+        }
 
         return new Receipt(receiptID, type, time, customer, customerAddress, seller, sellerAddress, itemReceiptList);
 
@@ -157,53 +170,84 @@ public class WareHouseMenu {
         return price;
     }
 
-    private ItemReceipt getItemReceiptForImport() {
-
-        ItemReceipt itemReceipt = null;
-
-        try {
-           itemReceipt = DataInput.getProductForImport("Enter id of product!");
-        } catch (Exception ex) {
-            System.out.println(ex);
+    public ItemReceipt getItemReceiptForImport(String id) throws Exception {
+        String code, receiptID, productName;
+        int price, quantityNeed;
+        receiptID = id;
+        Product p = DataInput.getProductForImport("Enter code of product!");
+        if (p == null) {
+            p = getNewProduct();
         }
-        return itemReceipt;
+
+        code = p.getCode();
+        productName = p.getName();
+        price = p.getPrice();
+        quantityNeed = getQuantity();
+        return new ItemReceipt(code, receiptID, productName, price, quantityNeed);
     }
 
-    private List<ItemReceipt> getItemReceiptsListForImport() {
-        List<ItemReceipt> listTmp = new ArrayList<>();
-        String choice = "y";
-        
-        while(choice.equals("y")){
-                 listTmp.add(getItemReceiptForImport());  
-                choice = DataInput.getString("Are you want to continue add product? Y/N").toLowerCase();
-        }
-        return listTmp;
+    public Product getNewProduct() {
+        String newCode, newName, newManufacturingDate, newExpirationDate, newType;
+        int newQuantity, newPrice;
+
+        newCode = getCodeProduct();
+        newName = getNameProduct();
+        newManufacturingDate = getManufacturingDate();
+        newExpirationDate = getExpirationDate();
+        newType = getType();
+        newQuantity = getQuantity();
+        newPrice = getPrice();
+
+        return new Product(newCode, newName, newManufacturingDate, newExpirationDate, newType, newQuantity, newPrice);
     }
 
-    private ItemReceipt getItemReceiptForExport() {
-        ItemReceipt itemReceipt = null;
-        try {
-            itemReceipt = DataInput.getProductForExport("Enter id of product!");
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return itemReceipt;
+    public String getCodeProduct() {
+        String code;
+
+        code = DataInput.getStringCode("Enter code of product!");
+        return code;
     }
 
-    private List<ItemReceipt> getItemReceiptsListForExport() {
-        List<ItemReceipt> itemReceiptList = new ArrayList<>();
-        String choice;
-        do {
-            choice = DataInput.getString("Are you want to countinue add product? Y/N").toLowerCase();
+    public String getNameProduct() {
+        String nameProduct = DataInput.getString("Enter name of product!");
+        return nameProduct;
+    }
 
-            switch (choice) {
-                case "y": {
-                    itemReceiptList.add(getItemReceiptForImport());
-                    break;
-                }
-            }
+    public String getManufacturingDate() {
+        String newManufacturingdate = DataInput.getDate("Enter manufacturing date of product!  ex. dd-mm-yy");
+        return newManufacturingdate;
+    }
 
-        } while (choice.equals("n"));
-        return itemReceiptList;
+    public String getExpirationDate() {
+        String newExpirationDate = DataInput.getDate("Enter expiration date of product!  ex. dd-mm-yy");
+        return newExpirationDate;
+    }
+
+    public String getType() {
+        String tmp = DataInput.getTypeProduct("Enter type of product! 0 -> DAILY / 1 -> LONG-LIFE");
+        String newType;
+        if (tmp.equals("0")) {
+            newType = "DAILY-USE";
+        } else if (tmp.equals("1")) {
+            newType = "LONG-LIFE-USE";
+        } else {
+            newType = "";
+        }
+        return newType;
+    }
+
+    public ItemReceipt getItemReceiptForExport(String id) throws Exception {
+        String code, receiptID, productName;
+        int price, quantityNeed;
+        receiptID = id;
+        Product p = DataInput.getProductForExport("Enter code of product!");
+        if (p != null) {
+            code = p.getCode();
+            productName = p.getName();
+            price = p.getPrice();
+            quantityNeed = getQuantity();
+            return new ItemReceipt(code, receiptID, productName, price, quantityNeed);
+        }
+        return null;
     }
 }

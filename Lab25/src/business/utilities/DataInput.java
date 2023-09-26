@@ -11,6 +11,7 @@ import data.IProductDao;
 import data.IWareHouseDao;
 import data.ProductDaoImpl;
 import data.WareHouseDaoImpl;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +21,7 @@ import java.util.Scanner;
  */
 public class DataInput {
 
+    static IProductDao rawProduct = ProductDaoImpl.getInstance();
     static IWareHouseDao rawItemList = WareHouseDaoImpl.getInstance();
 
     static Scanner sc = new Scanner(System.in);
@@ -58,27 +60,32 @@ public class DataInput {
         }
         return tmp;
     }
-    public static int getIntForUpdate(String message){
+
+    public static int getIntForUpdate(String message) {
         String var;
         int number = -1;
         System.out.println(message);
         var = sc.nextLine().trim();
-        
-        if (!var.isEmpty()){
+
+        if (!var.isEmpty()) {
             try {
-               number = Integer.parseInt(var);
+                number = Integer.parseInt(var);
             } catch (Exception e) {
                 System.out.println("Invalid number");
             }
-        } else System.out.println("Skip input.");
+        } else {
+            System.out.println("Skip input.");
+        }
         return number;
     }
+
     public static String getString(String message) {
         System.out.println(message);
         String var = sc.nextLine();
 
         return var;
     }
+
     public static String getTypeProduct(String message) {
 
         String var = "";
@@ -110,44 +117,37 @@ public class DataInput {
 
     }
 
-    public static ItemReceipt getProductForImport(String message) throws Exception {
+    public static Product getProductForImport(String message) throws Exception {
         System.out.println(message);
         String productID = sc.nextLine();
-        List<ItemReceipt> listCheck = rawItemList.getItemReceipt();
-        ItemReceipt item = null;
-        for (ItemReceipt itemCheck : listCheck) {
-            if (itemCheck.getCode().equalsIgnoreCase(productID)) {
-                item = itemCheck;
-            } else {
-                System.out.println("The product not exist. Let's add new product");
-                String id, productName;
-                int quantity, price;
 
-                id = productID;
-                productName = getString("Enter name of product!");
-                quantity = getInt("Enter quantity of product!");
-                price = getInt("Enter price of product!");
-                item = new ItemReceipt(id,null, productName, price, quantity); 
+        List<Product> listCheck = rawProduct.getList();
+
+        for (Product product : listCheck) {
+            if (product.getCode().equalsIgnoreCase(productID)) {
+                return product;
             }
         }
+        System.out.println("Product not exist! Let't add new");
         return null;
     }
 
-    public static ItemReceipt getProductForExport(String message) throws Exception {
-        List<ItemReceipt> itemReceiptList = rawItemList.getItemReceipt();
+    public static Product getProductForExport(String message) throws Exception {
+        List<Product> listCheck = rawProduct.getList();
 
-        ItemReceipt itemReceipt = null;
+        boolean isCheck = true;
 
-        while (itemReceipt != null) {
+        while (isCheck) {
             System.out.println(message);
             String productID = sc.nextLine();
-            for (ItemReceipt item : itemReceiptList) {
-                if (item.getCode().equalsIgnoreCase(productID)) {
-                    itemReceipt = item;
+            for (Product product : listCheck) {
+                if (product.getCode().equalsIgnoreCase(productID)) {
+                    return product;
                 }
             }
+            System.out.println("Product not exist. Let's enter again");
+            isCheck = true;
         }
-
-        return itemReceipt;
+        return null;
     }
 }

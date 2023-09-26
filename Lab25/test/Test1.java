@@ -2,6 +2,7 @@
 import business.entity.Product;
 import data.FileManager;
 import data.ProductDaoImpl;
+import data.ReportDao;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +19,9 @@ import java.util.List;
  */
 public class Test1 {
     public static void main(String[] args) throws Exception {
-          Date date = new Date(01, 02, 1999);
-        System.out.println(       date);
+          ReportDao report = new ReportDao();
+          
+        report.isExpired();
     }
 
     

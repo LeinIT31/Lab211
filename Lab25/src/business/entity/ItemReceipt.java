@@ -48,7 +48,9 @@ public class ItemReceipt {
 
     @Override
     public String toString() {
-        return code + "," + productName + "," + price + "," + quantity;
+        return code + "," + receiptId + "," + productName + "," + price + "," + quantity;
     }
+
+   
 
 }
