@@ -8,6 +8,8 @@ import business.entity.Product;
 import data.IProductDao;
 import data.ProductDaoImpl;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -74,5 +76,16 @@ public class ProductService implements IProductService {
     public void saveFile() throws Exception {
         rawProduct.saveFile();
     }
-
+    public void removeByQuantity(int quantity){
+        try {
+            boolean isCheck = rawProduct.removeByQuantity(quantity);
+            if (isCheck){
+                System.out.println("Successfull");
+            } else System.out.println("Failed");
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
+ 
+    }
 }

@@ -131,5 +131,15 @@ public class ProductDaoImpl implements IProductDao {
     public List<Product> getList() {
         return pList;
     }
-    
+    public boolean removeByQuantity(int quantity){
+        boolean isCheck = false;
+        for (Product product : pList) {
+            if (product.getQuantity() == quantity){
+                pList.remove(product);
+                isCheck = true;
+            }
+        }
+        
+        return isCheck;
+    }
 }

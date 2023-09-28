@@ -18,4 +18,5 @@ public interface IProductService {
     void printList() throws Exception;
     List<Product> getList() throws Exception;
     void saveFile() throws Exception;
+    void removeByQuantity(int quantity) throws Exception;
 }

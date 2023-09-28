@@ -18,4 +18,5 @@ public interface IProductDao extends DAO<Product> {
     boolean delete(String code) throws Exception;
     List<Product> getList() throws Exception;
     void saveFile() throws Exception;
+    boolean removeByQuantity(int quantity) throws Exception;
 }

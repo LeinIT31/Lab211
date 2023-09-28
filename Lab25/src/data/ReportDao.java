@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class ReportDao implements IReportDao {
 
-    private IManagerFile pFileManager;
     IProductDao productDao = ProductDaoImpl.getInstance();
     IWareHouseDao warehouseDao = WareHouseDaoImpl.getInstance();
     
@@ -36,12 +35,14 @@ public class ReportDao implements IReportDao {
     }
 
     public boolean isExpired() throws Exception {
+        boolean isCheck = false;
         for (Product product : getList()) {
             if (dateFormatResult(product.getManufacturingDate()).after(dateFormatResult(product.getExpirationDate()))) {
                 System.out.println(product);
+                isCheck = true;
             }
         }
-        return true;
+        return isCheck;
     }
     //Format date
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -56,19 +57,21 @@ public class ReportDao implements IReportDao {
     }
 
     public boolean isSelling() throws Exception {
+        boolean isCheck = false;
         for (Product product : getList()) {
             if (product.getQuantity() > 0
                     && (dateFormatResult(product.getManufacturingDate()).before(dateFormatResult(product.getExpirationDate())))) {
 
                 System.out.println(product);
+                isCheck = true;
             }
         }
-        return true;
+        return isCheck;
     }
 
     public boolean isRunningOut() throws Exception {
         List<Product> list = productDao.getList();
-
+        boolean isCheck = false;
         list.sort(
                 new Comparator<Product>() {
             @Override
@@ -80,12 +83,14 @@ public class ReportDao implements IReportDao {
         for (Product product : list) {
             if (product.getQuantity() <= 3) {
                 System.out.println(product);
+                isCheck = true;
             }
         }
-        return true;
+        return isCheck;
     }
     public boolean showProductByCode(String code) throws Exception{
         List<ItemReceipt> list = warehouseDao.getItemReceipt();
+        
         for (ItemReceipt item : list){
             if (item.getCode().equalsIgnoreCase(code)){
                 System.out.println(item);

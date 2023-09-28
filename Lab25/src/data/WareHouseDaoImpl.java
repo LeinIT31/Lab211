@@ -28,8 +28,9 @@ public class WareHouseDaoImpl implements IWareHouseDao {
         try {
             wManagerFile = new FileManager("wareHouse.txt");
             itemManagerFile = new FileManager("ItemReceipt.txt");
-            loadItemReceiptFromFile();
+            loadItemReceiptFromFileByHashMap();
             loadDataFromFile();
+            loadItemReceiptFormFile();
         } catch (Exception ignored) {
         }
     }
@@ -59,6 +60,7 @@ public class WareHouseDaoImpl implements IWareHouseDao {
         return receiptList;
     }
     public List<ItemReceipt> getItemReceipt(){
+        itemReceiptList.toString();
         return itemReceiptList;
     }
     private void loadDataFromFile() throws Exception {
@@ -100,7 +102,7 @@ public class WareHouseDaoImpl implements IWareHouseDao {
         itemManagerFile.writeItemReceiptToFile(itemReceiptList);
     }
 
-    private void loadItemReceiptFromFile() throws Exception {
+    private void loadItemReceiptFromFileByHashMap() throws Exception {
         for (String r : itemManagerFile.readDataFromFile()) {
             ItemReceipt item = converStringToItemReceipt(r);
            List<ItemReceipt> list = itemReceiptMap.get(item.getReceiptId());
@@ -110,6 +112,11 @@ public class WareHouseDaoImpl implements IWareHouseDao {
             }
             list.add(item);
         }
+    }
+    private void loadItemReceiptFormFile() throws Exception{
+        for (String r : itemManagerFile.readDataFromFile()) {
+            itemReceiptList.add(converStringToItemReceipt(r));
+    }
     }
 
     private ItemReceipt converStringToItemReceipt(String rawItemReceipt) {

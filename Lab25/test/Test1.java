@@ -1,8 +1,12 @@
 
 import business.entity.Product;
+import business.service.ProductService;
 import data.FileManager;
+import data.IProductDao;
+import data.IWareHouseDao;
 import data.ProductDaoImpl;
 import data.ReportDao;
+import data.WareHouseDaoImpl;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,9 +23,12 @@ import java.util.List;
  */
 public class Test1 {
     public static void main(String[] args) throws Exception {
-          ReportDao report = new ReportDao();
-          
-        report.isExpired();
+        ProductService ps = new ProductService();
+        IWareHouseDao test1 = new WareHouseDaoImpl();
+        
+        test1.getItemReceipt();
+        
+        
     }
 
     

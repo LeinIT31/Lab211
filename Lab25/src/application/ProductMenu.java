@@ -54,6 +54,10 @@ public class ProductMenu {
                     productService.saveFile();
                     break;
                 }
+                case 6: {
+                    remove();
+                    break;
+                }
             }
 
         } while (choice >= 1 && choice <= 5);
@@ -131,7 +135,7 @@ public class ProductMenu {
                             type = getType();
                             
                             quantity = DataInput.getIntForUpdate("Enter new quantity for product!");
-                            price = DataInput.getIntForUpdate(type);
+                            price = DataInput.getIntForUpdate("Enter new price for product!");
                             
                             Product tmp = new Product(id, productName, manufacturingDate, expirationDate, type, quantity, price);
                             productService.update(id, tmp);
@@ -184,4 +188,8 @@ public class ProductMenu {
         int newPrice = DataInput.getInt("Enter price of product!");
         return newPrice;
     }   
+    public void remove(){
+       int quantity = DataInput.getInt("");
+        productService.removeByQuantity(quantity);
+    }
 }

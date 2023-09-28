@@ -46,7 +46,7 @@ public class ReportService implements IReportService{
         try {
             boolean isCheck = report.isRunningOut();
             if (isCheck){
-                System.out.println("Show failed");
+                System.out.println("Show successfully");
             } else System.out.println("Show failed");
         } catch (Exception ex) {
             System.out.println(ex);
